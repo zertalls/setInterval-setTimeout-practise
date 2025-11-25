@@ -1,10 +1,10 @@
 import './App.css'
+import { TaskOne } from './TaskOne/TaskOne'
 
 function App() {
   return (
     <div>
-      hello    
-       
+      <TaskOne/>
     </div>
   )
 }

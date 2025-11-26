@@ -1,10 +1,12 @@
 import './App.css'
 import { TaskOne } from './TaskOne/TaskOne'
+import { TaskTwo } from './TaskTwo/TaskTwo'
 
 function App() {
   return (
     <div>
-      <TaskOne/>
+      {/* <TaskOne/> */}
+      <TaskTwo/>
     </div>
   )
 }

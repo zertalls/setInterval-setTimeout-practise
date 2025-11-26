@@ -1,31 +1,48 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const TaskOne = () => {
-    const [intervalId, setIntervalId] = useState<number | undefined>(undefined)
-    const [time, setTime] = useState<number>(10)
-    
-    const resetInterval= () => {
-        clearInterval(intervalId)
-        setTime(10)
-    }
+  const [intervalId, setIntervalId] = useState<number | undefined>(undefined);
+  const [time, setTime] = useState<number>(10);
+  const [disabled, setDisabled] = useState(false);
 
-    const startInterval = () => {
-        const timerId = setInterval(() => {
-            setTime(prev => prev - 1)            
-        }, 100)
+  const resetInterval = () => {
+    clearInterval(intervalId);
+    setIntervalId(undefined)
+    setTime(10);
+    setDisabled(false)
+  };
 
-        setIntervalId(timerId)
-    }
-    
-    return (
-        <div>
-            <div>{time}</div>
-            <button onClick={startInterval} >Старт!</button>            
-            <button onClick={resetInterval}>Сброс</button>            
-        </div>
-    );
+  const startInterval = () => {
+    const timerId = setInterval(() => {
+      setTime(prev => {
+        if (prev === 1) {
+          alert("Время вышло!");
+          clearInterval(timerId)
+          setIntervalId(undefined)
+          setDisabled(false);
+          return 10;
+        } else {
+          return prev - 1;
+        }
+      });
+    }, 100);
+
+    setIntervalId(timerId);
+    setDisabled(true);
+  };
+
+  return (
+    <div>
+      <div>{time}</div>
+      <button onClick={startInterval} disabled={disabled}>
+        Старт!
+      </button>
+      <button onClick={resetInterval} disabled={!disabled}>
+        Сброс
+      </button>
+    </div>
+  );
 };
-
 
 // todo Задача 1: Таймер обратного отсчета
 // todo Цель: Создай компонент таймера, который отсчитывает от 10 до 0 секунд.

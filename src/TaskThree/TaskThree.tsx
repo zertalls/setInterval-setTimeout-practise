@@ -2,7 +2,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 
 export const TaskThree = () => {
     const [text, setText] = useState<string | undefined>(undefined)
-    const [timerId, setTimerId] = useState<number | undefined>(undefined)
+    const [timerId, setTimerId] = useState<number | undefined>(undefined)    
 
     const typeText = (e: ChangeEvent<HTMLTextAreaElement>) => {
         if (timerId) {
@@ -13,16 +13,16 @@ export const TaskThree = () => {
         
         const id = setTimeout(() => {
             setText(currText) 
-            console.log('saved');                       
+            setTimerId(undefined)                                  
         }, 1000)
 
-        setTimerId(id)
+        setTimerId(id)   
     }
 
     return (
         <div>
             <textarea onChange={typeText}>{text}</textarea> 
-            {null && <span>Сохраненно</span>}
+            {timerId && <span>Сохранение...</span>}
         </div>
     );
 };

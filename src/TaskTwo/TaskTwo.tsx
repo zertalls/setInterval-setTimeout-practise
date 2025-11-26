@@ -1,4 +1,5 @@
 import { useState } from "react";
+import styles from './TaskTwo.module.css'
 
 type StopwatchType = {
     min: string
@@ -36,12 +37,16 @@ export const TaskTwo = () => {
                     currSec -= 60
                 }
 
+                const correctMin = convertTime(currMin.toString())
+                const correctSec = convertTime(currSec.toString())
+                const correctMs = convertTime(currMs.toString(), 'ms')
+
                 return {
                     id: stopwatchId,
                     status: 'running',
-                    min: currMin.toString(),
-                    sec: currSec.toString(),
-                    ms: currMs.toString()
+                    min:correctMin,
+                    sec: correctSec,
+                    ms: correctMs
                 }
             })                    
         }, 10)  
@@ -57,16 +62,27 @@ export const TaskTwo = () => {
         setStopwatch({min: '00', sec: '00', ms: '0000', status: 'idle', id: undefined})
     }
 
+    const convertTime = (value: string, type?: string) => {
+        if (type === 'ms') {
+            return '0'.repeat(4 - value.length) + value
+        } else {
+            return '0'.repeat(2 - value.length) + value
+        }
+    }
+
     return (
-        <div>
-            <div>
-                <span>{`${stopwatch.min}:`}</span>
-                <span>{`${stopwatch.sec}:`}</span>
+        <div className={styles.container}>
+            <h2>Секундомер</h2>
+            <div className={styles.stopwatch}>                
+                <span>{`${stopwatch.min}`}</span>:
+                <span>{`${stopwatch.sec}`}</span>:
                 <span>{`${stopwatch.ms}`}</span>
-            </div>            
-            <button onClick={startStopwatch} disabled={stopwatch.status === 'running'}>Старт</button>
-            <button onClick={pauseStopwatch} disabled={stopwatch.status === 'pause'}>Пауза</button>
-            <button onClick={resetStopwatch} disabled={stopwatch.status === 'running'}>Сброс</button>            
+            </div> 
+            <div className={styles.buttonsGroup}>
+                <button onClick={startStopwatch} disabled={stopwatch.status === 'running'}>Старт</button>
+                <button onClick={pauseStopwatch} disabled={stopwatch.status === 'pause'}>Пауза</button>
+                <button onClick={resetStopwatch} disabled={stopwatch.status === 'running'}>Сброс</button>      
+            </div> 
         </div>
     );
 };

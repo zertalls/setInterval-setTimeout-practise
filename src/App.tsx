@@ -4,7 +4,7 @@ import { TaskTwo } from './TaskTwo/TaskTwo'
 
 function App() {
   return (
-    <div>
+    <div style={{padding: '500px'}}>
       {/* <TaskOne/> */}
       <TaskTwo/>
     </div>

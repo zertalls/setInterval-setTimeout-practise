@@ -1,7 +1,58 @@
+import { useEffect, useState } from "react";
+
+type StepType = {
+    name: string,
+    durationMs: number
+}
+
 export const TaskFive = () => {
+    const [stepIndex, setStepIndex] = useState(0)
+    const [timeoutId, setTimeoutId] = useState<number | undefined>(undefined)
+
+    const steps: StepType[] = [
+        {name: 'Разогрев', durationMs: 1000},
+        {name: 'Приготовление', durationMs: 1000},
+        {name: 'Подача', durationMs: 1000},
+    ]
+
+    const resetTimeout = () => {
+        if (timeoutId) {
+            clearInterval(timeoutId)
+            setTimeoutId(undefined)
+        }
+    }
+
+    const startStep = (stepData: StepType) => {
+        const {name, durationMs} = stepData
+
+        console.log(name);  
+        
+        resetTimeout()
+
+        const timeoutId = setTimeout(() => {            
+            setStepIndex(prev => prev + 1)            
+        }, durationMs)
+
+        setTimeoutId(timeoutId)       
+    }
+
+    const showStep = () => {
+        return <div>
+            {steps[stepIndex].name}
+        </div>
+    }
+
+    console.log(timeoutId, stepIndex);
+    
+
     return (
-        <div>
+        <div>                     
+            <button onClick={() => {startStep(steps[stepIndex])}}>НАЧАЛИ</button>
+            <div>
+                {showStep()}
+            </div>
             
+
         </div>
     );
 };

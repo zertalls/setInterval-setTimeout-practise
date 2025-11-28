@@ -6,53 +6,34 @@ type StepType = {
 }
 
 export const TaskFive = () => {
-    const [stepIndex, setStepIndex] = useState(0)
-    const [timeoutId, setTimeoutId] = useState<number | undefined>(undefined)
+    const [stepIndex, setStepIndex] = useState(-1)
+    // const [timeoutId, setTimeoutId] = useState<number | undefined>(undefined)
 
     const steps: StepType[] = [
-        {name: 'Разогрев', durationMs: 1000},
-        {name: 'Приготовление', durationMs: 1000},
-        {name: 'Подача', durationMs: 1000},
+        {name: 'Разогрев', durationMs: 5000},
+        {name: 'Приготовление', durationMs: 10000},
+        {name: 'Подача', durationMs: 3000},
     ]
 
-    const resetTimeout = () => {
-        if (timeoutId) {
-            clearInterval(timeoutId)
-            setTimeoutId(undefined)
-        }
-    }
-
-    const startStep = (stepData: StepType) => {
-        const {name, durationMs} = stepData
-
-        console.log(name);  
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            setStepIndex(prev =>{
+                if (prev === steps.length) {                    
+                    return 2
+                } else {
+                    return prev + 1
+                }
+            })
+        }, steps[stepIndex].durationMs)  
         
-        resetTimeout()
-
-        const timeoutId = setTimeout(() => {            
-            setStepIndex(prev => prev + 1)            
-        }, durationMs)
-
-        setTimeoutId(timeoutId)       
-    }
-
-    const showStep = () => {
-        return <div>
-            {steps[stepIndex].name}
-        </div>
-    }
-
-    console.log(timeoutId, stepIndex);
-    
+        return () => {
+            clearTimeout(timeoutId)
+        }           
+    }, [stepIndex])
 
     return (
-        <div>                     
-            <button onClick={() => {startStep(steps[stepIndex])}}>НАЧАЛИ</button>
-            <div>
-                {showStep()}
-            </div>
-            
-
+        <div>           
+            <span>{steps[stepIndex].name}</span>
         </div>
     );
 };
